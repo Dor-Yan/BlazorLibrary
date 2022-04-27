@@ -1,0 +1,175 @@
+﻿@page "/books"
+<PageTitle>Library</PageTitle>
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Books</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                    <li class="breadcrumb-item active">Books</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+@if (BookList == null && !BookList.Any())
+{
+    <p>loading...</p>
+}
+else
+{
+
+    @foreach (var item in BookList)
+    {
+        <!-- Main content -->
+        <section class="content">
+
+            <!-- Default box -->
+
+    <div class="card card-solid">
+                <div class="card-body pb-0">
+                    <div class="row">
+                        <div class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch flex-column">
+                            <div class="card bg-light d-flex flex-fill">
+                                <div class="card-header text-muted border-bottom-0">
+                                    @foreach (var type in item.Types)
+                                    {
+                                        @type.Name
+                                    }
+                                </div>
+                                <div class="card-body pt-0">
+                                    <div class="row">
+                                        <div class="col-7">
+                                            <h2 class="lead"><b>@item.Title</b></h2>
+                                            <p class="text-muted text-sm">
+                                                <b>Author: </b>
+                                                @foreach (var writer in item.Writers)
+                                                {
+                                                    @writer.Name
+                                                }
+                                            </p>
+                                            <ul class="ml-4 mb-0 fa-ul text-muted">
+                                                <li class="small"><span><i class="oi oi-book"></i></span> Pages: @item.NumberOfPages</li>
+                                                <li class="small"><span><i class="oi oi-bookmark"></i> </span> ISBN: @item.ISBN</li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-5 text-center">
+                                            <img src="../../dist/img/user1-128x128.jpg" alt="user-avatar" class="img-circle img-fluid">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="text-right">
+                                        <a href="#" class="btn btn-sm bg-teal">
+                                            <i class="fas fa-comments"></i>
+                                        </a>
+                                        <a href="#" class="btn btn-sm btn-primary">
+                                            <i class="fas fa-user"></i> View Profile
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                       
+                    </div>
+                </div>
+            </div>
+        </section>
+    }
+
+
+              <!-- /.card-body -->
+        <div class="card-footer">
+        <nav aria-label="Contacts Page Navigation">
+        <ul class="pagination justify-content-center m-0">
+        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+        <li class="page-item"><a class="page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item"><a class="page-link" href="#">4</a></li>
+        <li class="page-item"><a class="page-link" href="#">5</a></li>
+        <li class="page-item"><a class="page-link" href="#">6</a></li>
+        <li class="page-item"><a class="page-link" href="#">7</a></li>
+        <li class="page-item"><a class="page-link" href="#">8</a></li>
+        </ul>
+        </nav>
+        </div>
+        <!-- /.card-footer -->
+        <!-- /.card -->
+    
+
+}
+
+@code {
+    public List<Book> BookList { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        BookList = new List<Book>();
+        var book1 = new Book()
+            {
+                Id = 1,
+                Title = "Władca Pierścieni",
+                Publisher = "Amber",
+                DateOfEdition = "2015-09-02",
+                NumberOfPages = 1024,
+                ISBN = "9788324148622",
+                Types = new List<Type>() { new Type() { Name = "Fantasy, science fiction", Id = 1 } },
+                Writers = new List<Writer>() { new Writer { Name = "J.R.R. Tolkien", Id = 1 } }
+            };
+        var book2 = new Book()
+            {
+                Id = 2,
+                Title = "Buszujący w zbożu",
+                Publisher = "Albatros",
+                DateOfEdition = "2016-11-02",
+                NumberOfPages = 304,
+                ISBN = "9788379859115",
+                Types = new List<Type>() { new Type() { Name = "Literatura piękna", Id = 2 } },
+                Writers = new List<Writer>() { new Writer { Name = "J.D. Salinger", Id = 2 } }
+            };
+        var book3 = new Book()
+            {
+                Id = 3,
+                Title = "Harry Potter i Kamień Filozoficzny",
+                Publisher = "Media Rodzina",
+                DateOfEdition = "2016-07-20",
+                NumberOfPages = 304,
+                ISBN = "9788380082113",
+                Types = new List<Type>() { new Type() { Name = "Literatura młodzieżowa", Id = 3 } },
+                Writers = new List<Writer>() { new Writer { Name = "J.K. Rowling", Id = 3 } }
+            };
+        BookList.Add(book1);
+        BookList.Add(book2);
+        BookList.Add(book3);
+    }
+
+    public class Book
+    {
+        public int Id { get; set; }
+        public List<Type> Types { get; set; }
+        public string Title { get; set; }
+        public List<Writer> Writers { get; set; }
+        public string Publisher { get; set; }
+        public string DateOfEdition { get; set; }
+        public int NumberOfPages { get; set; }
+        public string ISBN { get; set; }
+    }
+
+    public class Type
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+    }
+
+    public class Writer
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+    }
+}

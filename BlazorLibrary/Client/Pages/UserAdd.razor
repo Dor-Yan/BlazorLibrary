@@ -1,0 +1,93 @@
+﻿@page "/users/add"
+
+@using BlazorLibrary.Shared.Users.Commands
+@using Blazored.FluentValidation
+
+<EditForm Model="@NewUser" OnSubmit="OnSubmitMethod">
+    <FluentValidationValidator />
+    <DataAnnotationsValidator/>
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>Reader Add</h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item active">Reader Add</li>
+                        </ol>
+                    </div>
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">General</h3>
+
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="reader">Reader</label>
+                                <InputText id="reader" @bind-Value="NewUser.Name" class="form-control" />
+                                <ValidationMessage For="() => NewUser.Name" />
+                            </div>
+                              <div class="form-group">
+                                <label for="phone">Phone number</label>
+                                <InputText id="phone" @bind-Value="NewUser.PhoneNumber" class="form-control" />
+                                <ValidationMessage For="() => NewUser.PhoneNumber" />
+                            </div>
+                             <div class="form-group">
+                                <label for="email">Email Adress</label>
+                                <InputText id="email" @bind-Value="NewUser.EmailAdress" class="form-control" />
+                                <ValidationMessage For="() => NewUser.EmailAdress" />
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+               
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <a href="#" class="btn btn-secondary">Cancel</a>
+                    <input type="submit" value="Create new Project" class="btn btn-success float-right">
+                </div>
+            </div>
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+    @*</html>*@
+    <ValidationSummary />
+</EditForm>
+
+@code {
+    public AddUserVM NewUser { get; set; } = new();
+
+     private void OnSubmitMethod(EditContext editContext)
+    {
+        if (editContext.Validate())
+        {
+            Console.WriteLine("User has been validated");
+        }
+        else
+        {
+            Console.WriteLine("User has not been validated");
+        }
+    }
+}

@@ -1,0 +1,145 @@
+﻿@page "/users"
+<PageTitle>Library</PageTitle>
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Readers</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Readers</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+@if (UserList == null && !UserList.Any())
+{
+    <p>loading...</p>
+}
+else
+{
+
+@foreach (var item in UserList)
+{
+<!-- Main content -->
+<section class="content">
+
+    <!-- Default box -->
+    <div class="card">
+        <div class="card-body p-0">
+            <table class="table table-striped projects">
+                <thead>
+                    <tr>
+                        <th style="width: 1%">
+                            #
+                        </th>
+                        <th style="width: 20%">
+                            Reader Name
+                        </th>
+                        <th style="width: 30%">
+                            Phone number
+                        </th>
+                        <th>
+                            Email adress
+                        </th>
+                        <th style="width: 20%">
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            @item.Id
+                        </td>
+                        <td>
+                            <a>
+                                @item.Name
+                            </a>
+                            <br />
+                        </td>
+                        <td>
+                            @item.PhoneNumber
+                        </td>
+                        <td>
+                       @item.EmailAdress
+                        </td>
+                        
+                        <td class="project-actions text-right">
+                            <a class="btn btn-primary btn-sm" href="#">
+                                <i class="fas fa-folder">
+                                </i>
+                                View
+                            </a>
+                            <a class="btn btn-info btn-sm" href="#">
+                                <i class="fas fa-pencil-alt">
+                                </i>
+                                Edit
+                            </a>
+                            <a class="btn btn-danger btn-sm" href="#">
+                                <i class="fas fa-trash">
+                                </i>
+                                Delete
+                            </a>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+        <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+
+</section>
+<!-- /.content -->
+<!-- /.content-wrapper -->
+}
+}
+
+@code {
+
+    public List<User> UserList { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        UserList = new List<User>();
+        var book1 = new User()
+            {
+                Id = 1,
+                Name = "Jan Nowak",
+                PhoneNumber = "555 666 777",
+                EmailAdress = "jan@jan.pl",
+            };
+            var book2 = new User()
+            {
+                Id = 2,
+                Name = "Paweł Kowalski",
+                PhoneNumber = "222 333 444",
+                EmailAdress = "pawel@pawel.pl",
+            };
+            var book3 = new User()
+            {
+                Id = 3,
+                Name = "Łukasz Czegoszukasz",
+                PhoneNumber = "444 555 777",
+                EmailAdress = "luk@luk.pl",
+            };
+
+            UserList.Add(book1);
+            UserList.Add(book2);
+            UserList.Add(book3);
+    }
+    public class User
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string PhoneNumber { get; set; }
+        public string EmailAdress { get; set; }
+    }
+}
