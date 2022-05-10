@@ -1,0 +1,36 @@
+﻿@using BlazorLibrary.Shared.Users.Commands 
+
+<div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">General</h3>
+
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="reader">Reader</label>
+                                <InputText id="reader" @bind-Value="NewUser.Name" class="form-control" />
+                                <ValidationMessage For="() => NewUser.Name" />
+                            </div>
+                              <div class="form-group">
+                                <label for="phone">Phone number</label>
+                                <InputText id="phone" @bind-Value="NewUser.PhoneNumber" class="form-control" />
+                                <ValidationMessage For="() => NewUser.PhoneNumber" />
+                            </div>
+                             <div class="form-group">
+                                <label for="email">Email Adress</label>
+                                <InputText id="email" @bind-Value="NewUser.EmailAdress" class="form-control" />
+                                <ValidationMessage For="() => NewUser.EmailAdress" />
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+
+@code {
+    public AddUserVM NewUser { get; set; } = new();
+}

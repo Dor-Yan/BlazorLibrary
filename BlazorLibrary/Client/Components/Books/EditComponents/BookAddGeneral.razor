@@ -1,0 +1,92 @@
+﻿@using BlazorLibrary.Shared.Books.Commands
+
+<div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">General</h3>
+
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="title">Title</label>
+                                <InputText id="title" @bind-Value="NewBook.Title" class="form-control" />
+                                <ValidationMessage For="() => NewBook.Title" />
+                            </div>
+                            <div class="form-group">
+                                <label for="inputDescription">Book Description</label>
+                                <InputTextArea id="inputDescription" @bind-Value="NewBook.Description" class="form-control" rows="4" />
+                                <ValidationMessage For="() => NewBook.Description" />
+                            </div>
+                            <div class="form-group">
+                                <label for="Author">Author</label>
+                                <InputSelect id="Author" @bind-Value="NewBook.Writers.Name" class="form-control">
+                                    <option value="" disabled>----Select Author----</option>
+                                    @foreach (var item in Writers)
+                                    {
+                                        <option value="@item.Name">@item.Name</option>
+                                    }
+                                </InputSelect>
+                            </div>
+                            <div class="form-group">
+                                <label for="Type">Type</label>
+                                <InputSelect id="Type" @bind-Value="NewBook.Types.Name" class="form-control" >
+                                    <option value="" disabled>----Select Type----</option>
+                                    @foreach (var item in Types)
+                                    {
+                                        <option value="@item.Name">@item.Name</option>
+                                    }
+                                    </InputSelect>
+                            </div>
+                             <div class="form-group">
+                                <label for="publisher">Publisher</label>
+                                <InputText id="publisher" @bind-Value="NewBook.Publisher" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label for="editionDate">Date of edition</label>
+                                <InputDate id="editionDate" @bind-Value="NewBook.DateOfEdition" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label for="pages">Number of pages</label>
+                                <InputNumber id="pages" @bind-Value="NewBook.NumberOfPages" class="form-control" />
+                            </div>
+                            <div>
+                                <label for="isAvailable">In stock</label>
+                                <InputCheckbox id="isAvailable" @bind-Value="NewBook.Available" />
+                            </div>
+                            <label for="file">Picture</label>
+                            <InputFile id="file" OnChange="OnChangeInputFile"  class="form-control" />
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+
+@code {
+    public AddBookVM NewBook { get; set; } = new();
+
+    public List<WriterVm> Writers { get; set; } = new();
+    public List<TypeVm> Types { get; set; } = new();
+
+    private IReadOnlyList<IBrowserFile> files;
+
+    protected override void OnInitialized()
+    {
+        NewBook.Writers = new WriterVm();
+        Writers.Add(new WriterVm() { Id = 1, Name = "J.R.R. Tolkien" });
+        Writers.Add(new WriterVm() { Id = 2, Name = "J.D. Salinger" });
+        Writers.Add(new WriterVm() { Id = 3, Name = "J.K. Rowling" });
+
+        NewBook.Types = new TypeVm();
+        Types.Add(new TypeVm() { Id = 1, Name = "Fantasy, science fiction" });
+        Types.Add(new TypeVm() { Id = 2, Name = "Literatura piękna" });
+        Types.Add(new TypeVm() { Id = 3, Name = "Literatura młodzieżowa" });
+    }
+
+    private void OnChangeInputFile(InputFileChangeEventArgs args)
+    {
+        files = args.GetMultipleFiles();
+    }
+}
