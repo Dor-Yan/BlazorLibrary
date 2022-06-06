@@ -2,6 +2,7 @@
 
 @using BlazorLibrary.Shared.Books.Commands
 @using Blazored.FluentValidation
+@using BlazorLibrary.Client.Components.Books.EditComponents
 
 <EditForm Model="@NewBook" OnSubmit="OnSubmitMethod">
     <FluentValidationValidator />
@@ -28,7 +29,7 @@
         <section class="content">
             <div class="row">
                 <div class="col-md-6">
-                    <BlazorLibrary.Client.Components.Books.EditComponents.BookAddGeneral/>
+                    <BookAddGeneral/>
                 </div>
                 
             </div>
