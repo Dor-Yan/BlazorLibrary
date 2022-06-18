@@ -1,4 +1,8 @@
 using Microsoft.AspNetCore.ResponseCompression;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using BlazorLibrary.Persistance;
+using BlazorLibrary.Application;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,6 +10,17 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
+
+builder.Services.AddApplication();
+builder.Services.AddPersitance(builder.Configuration);
+
+builder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+builder.Logging.ClearProviders();
+
+var logger = new LoggerConfiguration().WriteTo.Console().CreateLogger();
+
+builder.Logging.AddSerilog(logger);
 
 var app = builder.Build();
 

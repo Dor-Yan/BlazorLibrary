@@ -10,7 +10,7 @@ namespace BlazorLibrary.Shared.Users.Commands
 {
     public class AddUserVM
     {
-        public int Id { get; set; }
+      
         public string Name { get; set; }
         [Required]
         [PhoneAttribute]
