@@ -32,7 +32,7 @@ namespace BlazorLibrary.Persistance
             modelbuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
             modelbuilder.Entity<BookType>()
-                 .HasKey(it => new { it.TypeId, it.BookId });
+                 .HasKey(it => new { it.BookId, it.TypeId });
 
             modelbuilder.Entity<BookType>()
                 .HasOne<Book>(it => it.Book)

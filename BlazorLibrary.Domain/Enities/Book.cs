@@ -18,8 +18,10 @@ namespace BlazorLibrary.Domain.Enities
         public bool Available { get; set; }
         public string Picture { get; set; }
         public int TypeId { get; set; }
+        public int WriterId { get; set; }
 
         public virtual Type Type { get; set; }
+        public virtual Writer Writer { get; set; }
 
         public ICollection<BookType> BookTypes { get; set; }
     }

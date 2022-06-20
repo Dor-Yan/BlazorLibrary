@@ -29,24 +29,31 @@ namespace BlazorLibrary.Application.Books.Queries
             return MapBooksToVm(books);
         }
 
+
         private List<BookForListVm> MapBooksToVm(List<Book> books)
         {
             var result = new List<BookForListVm>();
+            
             foreach (var book in books)
             {
                 var bookVm = new BookForListVm()
+               
                 {
-                 Title = book.Title,
+                    Id = book.Id,
+                    Title = book.Title,
                  Description = book.Description,
                  Publisher = book.Publisher,
                  NumberOfPages = book.NumberOfPages,
                  ISBN = book.ISBN,
                  Available = book.Available,
-                 Id = book.Id,
+                 StatusId = book.StatusId,
+               // BookTypes = book.BookTypes,
+              //  WriterName = book.Writer.Name,
                 };
                 result.Add(bookVm);
             }
             return result;
+            
         }
     }
 }

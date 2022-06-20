@@ -9,8 +9,8 @@ namespace BlazorLibrary.Domain.Enities
     public class BookType
     {
         public int BookId { get; set; }
-        public Book Book { get; set; }
+        public Book Book { get; set; } 
         public int TypeId { get; set; }
-        public Type Type { get; set; }
+        public Type Type { get; set; } 
     }
 }

@@ -18,10 +18,10 @@ namespace BlazorLibrary.Persistance.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Modified = table.Column<DateTime>(type: "datetime2", nullable: true),
                     StatusId = table.Column<int>(type: "int", nullable: false),
-                    InactivatedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    InactivatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Inactivated = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
@@ -40,10 +40,10 @@ namespace BlazorLibrary.Persistance.Migrations
                     EmailAdress = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Modified = table.Column<DateTime>(type: "datetime2", nullable: true),
                     StatusId = table.Column<int>(type: "int", nullable: false),
-                    InactivatedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    InactivatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Inactivated = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
@@ -60,10 +60,10 @@ namespace BlazorLibrary.Persistance.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Modified = table.Column<DateTime>(type: "datetime2", nullable: true),
                     StatusId = table.Column<int>(type: "int", nullable: false),
-                    InactivatedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    InactivatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Inactivated = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
@@ -86,12 +86,13 @@ namespace BlazorLibrary.Persistance.Migrations
                     Available = table.Column<bool>(type: "bit", nullable: false),
                     Picture = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TypeId = table.Column<int>(type: "int", nullable: false),
+                    WriterId = table.Column<int>(type: "int", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Modified = table.Column<DateTime>(type: "datetime2", nullable: true),
                     StatusId = table.Column<int>(type: "int", nullable: false),
-                    InactivatedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    InactivatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Inactivated = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
@@ -101,6 +102,12 @@ namespace BlazorLibrary.Persistance.Migrations
                         name: "FK_Books_Types_TypeId",
                         column: x => x.TypeId,
                         principalTable: "Types",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Books_Writers_WriterId",
+                        column: x => x.WriterId,
+                        principalTable: "Writers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -114,7 +121,7 @@ namespace BlazorLibrary.Persistance.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BookType", x => new { x.TypeId, x.BookId });
+                    table.PrimaryKey("PK_BookType", x => new { x.BookId, x.TypeId });
                     table.ForeignKey(
                         name: "FK_BookType_Books_BookId",
                         column: x => x.BookId,
@@ -133,9 +140,14 @@ namespace BlazorLibrary.Persistance.Migrations
                 column: "TypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BookType_BookId",
+                name: "IX_Books_WriterId",
+                table: "Books",
+                column: "WriterId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BookType_TypeId",
                 table: "BookType",
-                column: "BookId");
+                column: "TypeId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -147,13 +159,13 @@ namespace BlazorLibrary.Persistance.Migrations
                 name: "Users");
 
             migrationBuilder.DropTable(
-                name: "Writers");
-
-            migrationBuilder.DropTable(
                 name: "Books");
 
             migrationBuilder.DropTable(
                 name: "Types");
+
+            migrationBuilder.DropTable(
+                name: "Writers");
         }
     }
 }

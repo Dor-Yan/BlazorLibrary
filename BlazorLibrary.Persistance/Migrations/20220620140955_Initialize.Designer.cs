@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BlazorLibrary.Persistance.Migrations
 {
     [DbContext(typeof(BlazorLibraryDbContext))]
-    [Migration("20220618152059_Initialize")]
+    [Migration("20220620140955_Initialize")]
     partial class Initialize
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -59,14 +59,12 @@ namespace BlazorLibrary.Persistance.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("InactivatedBy")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("Modified")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ModifiedBy")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("NumberOfPages")
@@ -92,24 +90,29 @@ namespace BlazorLibrary.Persistance.Migrations
                     b.Property<int>("TypeId")
                         .HasColumnType("int");
 
+                    b.Property<int>("WriterId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("TypeId");
+
+                    b.HasIndex("WriterId");
 
                     b.ToTable("Books");
                 });
 
             modelBuilder.Entity("BlazorLibrary.Domain.Enities.BookType", b =>
                 {
-                    b.Property<int>("TypeId")
-                        .HasColumnType("int");
-
                     b.Property<int>("BookId")
                         .HasColumnType("int");
 
-                    b.HasKey("TypeId", "BookId");
+                    b.Property<int>("TypeId")
+                        .HasColumnType("int");
 
-                    b.HasIndex("BookId");
+                    b.HasKey("BookId", "TypeId");
+
+                    b.HasIndex("TypeId");
 
                     b.ToTable("BookType");
                 });
@@ -133,14 +136,12 @@ namespace BlazorLibrary.Persistance.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("InactivatedBy")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("Modified")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ModifiedBy")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -178,14 +179,12 @@ namespace BlazorLibrary.Persistance.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("InactivatedBy")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("Modified")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ModifiedBy")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -224,14 +223,12 @@ namespace BlazorLibrary.Persistance.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("InactivatedBy")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("Modified")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ModifiedBy")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -254,7 +251,15 @@ namespace BlazorLibrary.Persistance.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("BlazorLibrary.Domain.Enities.Writer", "Writer")
+                        .WithMany("Books")
+                        .HasForeignKey("WriterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Type");
+
+                    b.Navigation("Writer");
                 });
 
             modelBuilder.Entity("BlazorLibrary.Domain.Enities.BookType", b =>
@@ -284,6 +289,11 @@ namespace BlazorLibrary.Persistance.Migrations
             modelBuilder.Entity("BlazorLibrary.Domain.Enities.Type", b =>
                 {
                     b.Navigation("BookTypes");
+                });
+
+            modelBuilder.Entity("BlazorLibrary.Domain.Enities.Writer", b =>
+                {
+                    b.Navigation("Books");
                 });
 #pragma warning restore 612, 618
         }

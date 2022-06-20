@@ -11,6 +11,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorLibrary.Client", "BlazorLibrary\Client\BlazorLibrary.Client.csproj", "{BF4B2D3B-7B8C-48E1-A19E-F579432799F8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorLibrary.Shared", "BlazorLibrary\Shared\BlazorLibrary.Shared.csproj", "{24771156-E06F-4A41-812E-9B18F4EE7054}"
+	ProjectSection(ProjectDependencies) = postProject
+		{319F37E7-04A8-4C4A-ADD2-505A7DE31988} = {319F37E7-04A8-4C4A-ADD2-505A7DE31988}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorLibrary.Application", "BlazorLibrary.Application\BlazorLibrary.Application.csproj", "{47600C7C-5486-437C-A06E-108126244AE6}"
 EndProject
