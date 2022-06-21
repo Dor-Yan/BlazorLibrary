@@ -1,4 +1,7 @@
 ﻿@page "/books"
+@using BlazorLibrary.Shared.Books.Queries.AllBooksQuery
+@inject HttpClient http;
+
 <PageTitle>Library</PageTitle>
 <!-- Content Header (Page header) -->
 <section class="content-header">
@@ -17,7 +20,7 @@
     </div><!-- /.container-fluid -->
 </section>
 
-@if (BookList == null && !BookList.Any())
+@if (BookList == null)
 {
     <p>loading...</p>
 }
@@ -37,9 +40,9 @@ else
                         <div class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch flex-column">
                             <div class="card bg-light d-flex flex-fill">
                                 <div class="card-header text-muted border-bottom-0">
-                                    @foreach (var type in item.Types)
+                                    @foreach (var type in item.BookType)
                                     {
-                                        @type.Name
+                                        @type
                                     }
                                 </div>
                                 <div class="card-body pt-0">
@@ -48,9 +51,9 @@ else
                                             <h2 class="lead"><b>@item.Title</b></h2>
                                             <p class="text-muted text-sm">
                                                 <b>Author: </b>
-                                                @foreach (var writer in item.Writers)
+                                                @foreach (var writer in item.WriterName)
                                                 {
-                                                    @writer.Name
+                                                    @writer
                                                 }
                                             </p>
                                             <ul class="ml-4 mb-0 fa-ul text-muted">
@@ -106,50 +109,11 @@ else
 }
 
 @code {
-    public List<Book> BookList { get; set; }
+    public List<BookForListVm> BookList { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        BookList = new List<Book>();
-        var book1 = new Book()
-            {
-                Id = 1,
-                Title = "Władca Pierścieni",
-                Publisher = "Amber",
-                DateOfEdition = "2015-09-02",
-                NumberOfPages = 1024,
-                ISBN = "9788324148622",
-                Picture = "../../dist/img/wladca3.jpg",
-                Types = new List<Type>() { new Type() { Name = "Fantasy, science fiction", Id = 1 } },
-                Writers = new List<Writer>() { new Writer { Name = "J.R.R. Tolkien", Id = 1 } }
-            };
-        var book2 = new Book()
-            {
-                Id = 2,
-                Title = "Buszujący w zbożu",
-                Publisher = "Albatros",
-                DateOfEdition = "2016-11-02",
-                NumberOfPages = 304,
-                ISBN = "9788379859115",
-                Picture = "../../dist/img/buszujacy.jpg",
-                Types = new List<Type>() { new Type() { Name = "Literatura piękna", Id = 2 } },
-                Writers = new List<Writer>() { new Writer { Name = "J.D. Salinger", Id = 2 } }
-            };
-        var book3 = new Book()
-            {
-                Id = 3,
-                Title = "Harry Potter i Kamień Filozoficzny",
-                Publisher = "Media Rodzina",
-                DateOfEdition = "2016-07-20",
-                NumberOfPages = 304,
-                ISBN = "9788380082113",
-                Picture = "../../dist/img/harry.jpg",
-                Types = new List<Type>() { new Type() { Name = "Literatura młodzieżowa", Id = 3 } },
-                Writers = new List<Writer>() { new Writer { Name = "J.K. Rowling", Id = 3 } }
-            };
-        BookList.Add(book1);
-        BookList.Add(book2);
-        BookList.Add(book3);
+        BookList = await http.GetFromJsonAsync<List<BookForListVm>>("api/books");
     }
 
     public class Book

@@ -18,9 +18,10 @@ namespace BlazorLibrary.Shared.Books.Queries.AllBooksQuery
         public int NumberOfPages { get; set; }
         public string ISBN { get; set; }
         public bool Available { get; set; }
+        public string Picture { get; set; }
         public DateTime? CreateDate { get; set; }
         public int StatusId { get; set; }
-        public List<BookTypeVm> BookTypes { get; set; }
+        public string BookType { get; set; }
         public string WriterName { get; set; }
 
     }

@@ -25,7 +25,7 @@ namespace BlazorLibrary.Application.Books.Queries
         }
         public async Task<List<BookForListVm>> Handle(AllBooksQuery request, CancellationToken cancellationToken)
         {
-            var books = await _context.Books.ToListAsync();
+            var books = await _context.Books.Include(b=>b.Type).Include(w=>w.Writer).ToListAsync();
             return MapBooksToVm(books);
         }
 
@@ -47,8 +47,10 @@ namespace BlazorLibrary.Application.Books.Queries
                  ISBN = book.ISBN,
                  Available = book.Available,
                  StatusId = book.StatusId,
-               // BookTypes = book.BookTypes,
-              //  WriterName = book.Writer.Name,
+                 Picture = book.Picture,
+                 CreateDate = book.Created,
+                BookType = book.Type.Name,
+                WriterName = book.Writer.Name,
                 };
                 result.Add(bookVm);
             }

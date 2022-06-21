@@ -1,4 +1,6 @@
 ﻿@page "/users"
+@using BlazorLibrary.Shared.Users.Queries.AllUsersQuery
+@inject HttpClient http;
 <PageTitle>Library</PageTitle>
 
 <!-- Content Header (Page header) -->
@@ -18,7 +20,7 @@
     </div><!-- /.container-fluid -->
 </section>
 
-@if (UserList == null && !UserList.Any())
+@if (UserList == null)
 {
     <p>loading...</p>
 }
@@ -104,36 +106,12 @@ else
 
 @code {
 
-    public List<User> UserList { get; set; }
+    public List<UserForListVm> UserList { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        UserList = new List<User>();
-        var book1 = new User()
-            {
-                Id = 1,
-                Name = "Jan Nowak",
-                PhoneNumber = "555 666 777",
-                EmailAdress = "jan@jan.pl",
-            };
-            var book2 = new User()
-            {
-                Id = 2,
-                Name = "Paweł Kowalski",
-                PhoneNumber = "222 333 444",
-                EmailAdress = "pawel@pawel.pl",
-            };
-            var book3 = new User()
-            {
-                Id = 3,
-                Name = "Łukasz Czegoszukasz",
-                PhoneNumber = "444 555 777",
-                EmailAdress = "luk@luk.pl",
-            };
-
-            UserList.Add(book1);
-            UserList.Add(book2);
-            UserList.Add(book3);
+        UserList = await http.GetFromJsonAsync<List<UserForListVm>>("api/users");
+        
     }
     public class User
     {

@@ -39,6 +39,8 @@ namespace BlazorLibrary.Application.Users.Queries
                     Name = user.Name,
                     PhoneNumber = user.PhoneNumber,
                     EmailAdress = user.EmailAdress,
+                    CreateDate = user.Created,
+                    StatusId = user.StatusId,
                     Id = user.Id,
                 };
                 result.Add(userVm);
